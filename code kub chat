@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define filename "employees.csv"
+#define MAX_LINE 1024
+
+void output_alldata() {
+    FILE *fp = fopen(filename, "r");
+    if (!fp) {
+        perror("Error opening file");
+        return;
+    }
+
+    char line[MAX_LINE];
+
+    // ข้าม header
+    if (fgets(line, sizeof(line), fp)) {
+        printf("=== Employee List ===\n");
+    }
+
+    while (fgets(line, sizeof(line), fp)) {
+        line[strcspn(line, "\n")] = 0;
+        char *name = strtok(line, ",");
+        char *start_date = strtok(NULL, ",");
+        char *position = strtok(NULL, ",");
+        char *status = strtok(NULL, ",");
+
+        if (name && start_date && position && status) {
+            printf("Name: %s | Start Date: %s | Position: %s | Status: %s\n",
+                   name, start_date, position, status);
+        }
+    }
+    fclose(fp);
+}
+
+void addemployeename() {
+    char input[MAX_LINE];
+    printf("Enter new employee (format: name,date,position,status): ");
+    getchar(); 
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = 0;
+
+    char *name = strtok(input, ",");
+    char *start_date = strtok(NULL, ",");
+    char *position = strtok(NULL, ",");
+    char *status = strtok(NULL, ",");
+
+    if (!name || !start_date || !position || !status) {
+        printf("Invalid input format.\n");
+        return;
+    }
+
+    FILE *fp = fopen(filename, "a");
+    if (!fp) {
+        printf("Error: Could not open file %s\n", filename);
+        return;
+    }
+    fprintf(fp, "%s,%s,%s,%s\n", name, start_date, position, status);
+    fclose(fp);
+    printf("Employee added successfully.\n");
+}
+
+int main() {
+    int choice;
+    while (1) {
+        printf("\n===== Employee system =====\n");
+        printf("1. Add employee name\n");
+        printf("2. Show employee data\n");
+        printf("3. Update employee data\n");
+        printf("4. Delete employee data\n");
+        printf("5. Exit\n");
+        printf("Choose an option: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addemployeename();
+                break;
+            case 2:
+                output_alldata();
+                break;
+            case 3:
+                printf("Update function not implemented yet.\n");
+                break;
+            case 4:
+                printf("Delete function not implemented yet.\n");
+                break;
+            case 5:
+                printf("EXIT\n");
+                return 0;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
