@@ -14,7 +14,6 @@ void output_alldata() {
 
     char line[MAX_LINE];
 
-    // ข้าม header
     if (fgets(line, sizeof(line), fp)) {
         printf("=== Employee List ===\n");
     }
