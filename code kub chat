@@ -40,7 +40,7 @@ void output_alldata() {
 void addemployeename() {
     char input[MAX_LINE];
 
-    // Flush stdin to remove leftover newline from previous input
+    
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 
