@@ -1,5 +1,4 @@
 # Final-project
-ไม่ไหวแล้วแชทททท
 How to การรัน compiler code 
 
 1. download file employees.csv
